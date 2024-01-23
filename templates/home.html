@@ -2,47 +2,33 @@
 <html>
   <head>
     <title>ByteZen Careers</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-      h1 {
-        font-size: 40px;
-        font-family: Roboto;
-        color: rgb(100, 100, 100);
-        text-align: center;
-      }
       #banner {
         width: 100%;
         object-fit: cover;
       }
-      h2 {
-        font-family: Roboto;
-        font-size: 32px;
-        color: rgb(100, 100, 100);
-        text-align: center;
-        font-weight: normal;
-      }
-      .bodytext {
-        font-family: Roboto;
-        color: rgb(80, 80, 80);
-      }
-      #container {
-        max-width: 1080px;
-        margin: 0 auto;
-      }
     </style>
   </head>  
   <body>
-    <div id = "container">
-    <h1>ByteZen Careers</h1>
-    <img id = "banner" src = "https://7d2ac619-79c1-4927-9088-5cdf6bd782d6-00-271gh9pkl7zr9.pike.replit.dev/static/banner.jpg">
-    <h2>About ByteZen</h2>
-    <p class = "bodytext">
+    <div class = "container">
+    <h1 class = "text-center mt-4 mb-4">{{company_name}} Careers</h1>
+    <img class = "img-fluid" id = "banner" src = "https://7d2ac619-79c1-4927-9088-5cdf6bd782d6-00-271gh9pkl7zr9.pike.replit.dev/static/banner.jpg">
+    <h2 class = "text-center mt-4 mb-4">About ByteZen</h2>
+    <p class = "lead">
       ByteZen, a cutting-edge tech company, pioneers in creating seamless digital experiences by blending precision with tranquility. Specializing in software development and digital solutions, ByteZen is committed to infusing simplicity and balance into complex technological landscapes. Our team of experts thrives on transforming intricate codes into intuitive applications, providing users with a harmonious and efficient digital environment. ByteZen envisions a world where technology enhances lives without unnecessary complexities, offering innovative solutions that pulse with both precision and calmness. Welcome to a ByteZen future, where technology meets tranquility.
     </p>
-    <h2>Job Openings</h2>
-    <p class = "bodytext">TODO - Display the jobs here.</p>
-    <div style = "text-align: center;">
-      <button>Contact Us</button>
-      <p>Copyright 2024, ByteZen</p>
+    <h2 class = "text-center mt-4 mb-4">Job Openings</h2>
+    <div>
+      {% for job in jobs %}
+        {% include 'jobitem.html' %}
+      {% endfor %}
+    </div>
+    <div class = "text-center">
+      <button class = "btn btn-primary btn-lg">Contact Us</button>
+      <p class = "mt-4 mb-4">Copyright 2024, ByteZen</p>
     </div>
   </body>
 </html>
