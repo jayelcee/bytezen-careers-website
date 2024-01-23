@@ -9,14 +9,15 @@
       #banner {
         width: 100%;
         object-fit: cover;
+        margin-bottom: 16px;
       }
     </style>
   </head>  
   <body>
+    {% include 'nav.html' %}
+    <img class = "img-fluid" id = "banner" src = "https://7d2ac619-79c1-4927-9088-5cdf6bd782d6-00-271gh9pkl7zr9.pike.replit.dev/static/banner.jpg">
     <div class = "container">
     <h1 class = "text-center mt-4 mb-4">{{company_name}} Careers</h1>
-    <img class = "img-fluid" id = "banner" src = "https://7d2ac619-79c1-4927-9088-5cdf6bd782d6-00-271gh9pkl7zr9.pike.replit.dev/static/banner.jpg">
-    <h2 class = "text-center mt-4 mb-4">About ByteZen</h2>
     <p class = "lead">
       ByteZen, a cutting-edge tech company, pioneers in creating seamless digital experiences by blending precision with tranquility. Specializing in software development and digital solutions, ByteZen is committed to infusing simplicity and balance into complex technological landscapes. Our team of experts thrives on transforming intricate codes into intuitive applications, providing users with a harmonious and efficient digital environment. ByteZen envisions a world where technology enhances lives without unnecessary complexities, offering innovative solutions that pulse with both precision and calmness. Welcome to a ByteZen future, where technology meets tranquility.
     </p>
@@ -28,7 +29,7 @@
     </div>
     <div class = "text-center">
       <button class = "btn btn-primary btn-lg">Contact Us</button>
-      <p class = "mt-4 mb-4">Copyright 2024, ByteZen</p>
     </div>
+      {% include 'footer.html' %}
   </body>
 </html>
