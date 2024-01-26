@@ -1,40 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ job.title }} - ByteZen Careers</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        h2 {
+            font-weight: normal;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ job.title }} - ByteZen Careers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-  {% include 'nav.html' %}
-  <div class="container mt-4">
-    <h1 class="mb-3">{{ job.title }}</h1>
-    <h2 class="h5 mb-3">Location: {{ job.location }}</h2>
-    <h2 class="h5">Salary: {{ job.salary }}</h2>
+    {% include 'nav.html' %}
+    <div class="container mt-4">
+        <h1 class="mb-3">{{ job.title }}</h1>
+        <h2 class="h5 mb-3"><b>Location: </b>{{ job.location }}</h2>
+        <h2 class="h5"><b>Salary: </b>{{ job.salary }}</h2>
 
-    <div class="my-4">
-      <h3>Responsibilities:</h3>
-      <ul>
-        {% for responsibility in job.responsibilities %}
-        <li>{{ responsibility }}</li>
-        {% endfor %}
-      </ul>
-    </div>
+        <div class="my-4">
+            <h3>Responsibilities:</h3>
+            <ul>
+                {% for responsibility in job.responsibilities %}
+                <li>{{ responsibility }}</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <div class="my-4">
-      <h3>Requirements:</h3>
-      <ol>
-        {% for requirement in job.requirements %}
-        <li>{{ requirement }}</li>
-        {% endfor %}
-      </ol>
-    </div>
+        <div class="my-4">
+            <h3>Requirements:</h3>
+            <ol>
+                {% for requirement in job.requirements %}
+                <li>{{ requirement }}</li>
+                {% endfor %}
+            </ol>
+        </div>
 
-    <div class="text-center">
-      <a href="#!" class="btn btn-primary btn-lg">Apply Now</a>
+      <!-- Application Form -->
+      <div class="application-form mt-5">
+          <h2>Application Form</h2>
+          <form action="/apply" method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Surname, First Name Middle Initial." required>
+              </div>
+              <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" required>
+              </div>
+              <div class="mb-3">
+                  <label for="linkedin" class="form-label">LinkedIn URL</label>
+                  <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/username">
+              </div>
+              <div class="mb-3">
+                  <label for="education" class="form-label">Education</label>
+                  <textarea class="form-control" id="education" name="education" placeholder="Briefly describe your educational background." required></textarea>
+              </div>
+              <div class="mb-3">
+                  <label for="experience" class="form-label">Work Experience</label>
+                  <textarea class="form-control" id="experience" name="experience" placeholder="Summarize your relevant work experience." required></textarea>
+              </div>
+              <div class="mb-3">
+                  <label for="resume" class="form-label">Resume</label>
+                  <input type="file" class="form-control" id="resume" name="resume" accept=".pdf" required>
+                  <div id="resumeHelp" class="form-text">Upload your resume in PDF format.</div>
+              </div>
+              <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+          </form>
+      </div>
     </div>
-  </div>
-  {% include 'footer.html' %}
+    {% include 'footer.html' %}
 </body>
+
 </html>

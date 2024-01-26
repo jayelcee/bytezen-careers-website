@@ -48,6 +48,11 @@ def show_job(job_id):
     return render_template('jobpage.html', job=job)
   return "Job not found", 404
 
+@app.route("/apply", methods=["POST"])
+def apply_for_job():
+    # Store applicant information to database
+    return "Application submitted", 200
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
   db_session.remove()
