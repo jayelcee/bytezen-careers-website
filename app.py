@@ -3,8 +3,21 @@ from database import db_session, Job
 
 app = Flask(__name__)
 
-def load_jobs_from_db():
-  jobs = db_session.query(Job).all()
+def load_jobs_from_db(job_id=None):
+  query = db_session.query(Job)
+  if job_id is not None:
+    job = query.filter(Job.id == job_id).first()
+    return {
+      'id': job.id,
+      'title': job.title,
+      'location': job.location,
+      'salary': f"{job.currency} {job.salary:,.2f}",
+      'currency': job.currency,
+      'responsibilities': job.responsibilities.split('\n'), 
+      'requirements': job.requirements.split('\n'), 
+    } if job else None
+
+  jobs = query.all()
   jobs_list = [
     {
       'id': job.id,
@@ -12,21 +25,28 @@ def load_jobs_from_db():
       'location': job.location,
       'salary': f"{job.currency} {job.salary:,.2f}",
       'currency': job.currency,
-      'responsibilities': job.responsibilities,
-      'requirements': job.requirements
+      'responsibilities': job.responsibilities.split('\n'),
+      'requirements': job.requirements.split('\n'),
     } for job in jobs
   ]
   return jobs_list
 
 @app.route("/")
-def hello_bytezen():
+def bytezen():
   jobs = load_jobs_from_db()
-  return render_template('home.html', jobs=jobs,company_name='ByteZen')
+  return render_template('home.html', jobs=jobs, company_name='ByteZen')
 
 @app.route("/api/jobs")
 def list_jobs():
   jobs = load_jobs_from_db()
   return jsonify(jobs)
+
+@app.route("/job/<int:job_id>")
+def show_job(job_id):
+  job = load_jobs_from_db(job_id=job_id)
+  if job is not None:
+    return render_template('jobpage.html', job=job)
+  return "Job not found", 404
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
