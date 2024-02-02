@@ -12,10 +12,11 @@ from flask import (
 from database import db_session, Job, JobApplicant
 from file_saver import save_resume, UPLOAD_FOLDER
 from status_update import update_applicant_status
+import os
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-app.secret_key = "your_secret_key"
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 
 def load_jobs_from_db(job_id=None):
@@ -150,16 +151,12 @@ def admin_login():
         username = request.form["username"]
         password = request.form["password"]
 
-        # Add logging here
-        app.logger.debug(f"Attempting login with username: {username}")
-
-        if username == "admin" and password == "admin@bytezen!":
+        if username == os.getenv("ADMIN_USERNAME") and password == os.getenv("ADMIN_PASSWORD"):
             session["logged_in"] = True
-            app.logger.debug("Login successful, redirecting to admin_monitoring")
             return redirect(url_for("admin_monitoring"))
         else:
             flash("Invalid credentials. Please try again.")
-            app.logger.debug("Login failed")
+            return redirect(url_for("admin_login"))
 
     return render_template("admin_login.html")
 
