@@ -9,9 +9,131 @@
 <body>
     {% include 'nav.html' %}
     <div class="container mt-5">
-        <h1>Applicant Tracking</h1>
-        <!-- Content for monitoring applications goes here -->
+
+        <!-- Search bar -->
+        <form class="mb-3" id="searchForm">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search by Name" id="searchInput">
+                <button class="btn btn-primary" type="submit">Check Status</button>
+            </div>
+        </form><br/>
+
+        <!-- Table to display applicant information -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Job Title</th>
+                    <th>Application Status</th>
+                </tr>
+            </thead>
+            <tbody id="applicantTable">
+                <!-- Data will be populated here dynamically -->
+            </tbody>
+        </table>
+
     </div>
-    {% include 'footer.html' %}
+    <style>
+        /* Add CSS styles for the fixed footer */
+        body {
+            margin-bottom: 80px; /* Adjust this value to fit your footer's height */
+        }
+
+        .fixed-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #ffffff; /* Change the background color as needed */
+            padding: 10px 0; /* Adjust padding as needed */
+        }
+    </style>
+
+    <div class="fixed-footer">
+        <div class="container">
+            <footer class="py-3">
+                <ul class="nav justify-content-center border-bottom pb-1 mb-1">
+                    <p>Unlock Your Potential: Discover Exciting Career Opportunities Today!</p>
+                </ul>
+                <p class="text-center text-body-secondary">&copy; 2024 ByteZen, Inc.</p>
+            </footer>
+        </div>
+    </div>
+    
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const applicantTable = document.getElementById('applicantTable');
+        const feedbackRow = document.getElementById('feedbackRow');
+        const feedbackCell = document.getElementById('feedbackCell');
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const searchValue = searchInput.value.trim();
+            
+            // Fetch applicants with matching names
+            fetch('/check_status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                },
+                body: `name=${searchValue}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Clear previous results
+                    applicantTable.innerHTML = '';
+                    
+                    data.applicants.forEach(applicant => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${applicant.name}</td>
+                            <td>${applicant.job_title}</td>
+                            <td>${applicant.status}</td>
+                        `;
+                        applicantTable.appendChild(row);
+
+                        // Generate and update feedback messages based on status
+                        let feedbackMessage = '';
+
+                        if (applicant.status === 'Interview') {
+                            // Generate random date and time within the specified range
+                            const interviewDate = new Date('2024-02-05');
+                            interviewDate.setDate(interviewDate.getDate() + Math.floor(Math.random() * 5));
+                            const startTime = 8 + Math.floor(Math.random() * 9); // Random hour between 8 AM and 5 PM
+                            const minutes = Math.floor(Math.random() * 4) * 15; // Random multiple of 15 minutes
+                            interviewDate.setHours(startTime, minutes);
+
+                            feedbackMessage = `You have passed the initial credentials screening. Use the meeting link below for your interview that is scheduled on ${interviewDate.toLocaleDateString()} at ${interviewDate.toLocaleTimeString()}.<br><br><a href="https://feutech-edu-ph.zoom.us/j/97703339318?pwd=cEc3MnJnVXFLN21Vcml1LzY0Z1dmZz09" target="_blank">Join Zoom Meeting</a>`;
+
+                        } else if (applicant.status === 'Accepted') {
+                            feedbackMessage = `You are qualified to work as a/an ${applicant.job_title} at ByteZen. Please check your email to read and accept the official terms of employment. Congratulations and welcome aboard!`;
+                        } else if (applicant.status === 'Rejected') {
+                            feedbackMessage = `Upon careful review of your application, we are sorry to inform you that you have not met our qualifications for the ${applicant.job_title} position.`;
+                        } else if (applicant.status === 'Pending') {
+                            feedbackMessage = 'Your application is still under review. Please wait for further updates soon. Thank you!';
+                        }
+
+                        // Create a feedback row and update the feedback message
+                        const feedbackRow = document.createElement('tr');
+                        feedbackRow.innerHTML = `
+                            <td colspan="3">
+                                <div style="margin-top: 25px; margin-bottom: 25px;">${feedbackMessage}</div>
+                            </td>
+                        `;
+                        feedbackRow.style.display = 'table-row';
+                        applicantTable.appendChild(feedbackRow);
+                    });
+                } else {
+                    // Handle the case when no matching applicants are found
+                    applicantTable.innerHTML = '<tr><td colspan="3">No matching applicants found</td></tr>';
+                    feedbackRow.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>

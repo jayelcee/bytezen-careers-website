@@ -8,6 +8,7 @@
 </head>
 <body>
     {% include 'nav.html' %}
+    <br/><br/><br/><br/><br/>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -36,6 +37,31 @@
             </div>
         </div>
     </div>
-    {% include 'footer.html' %}
+    <style>
+        /* Add CSS styles for the fixed footer */
+        body {
+            margin-bottom: 80px; /* Adjust this value to fit your footer's height */
+        }
+
+        .fixed-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #ffffff; /* Change the background color as needed */
+            padding: 10px 0; /* Adjust padding as needed */
+        }
+    </style>
+
+    <div class="fixed-footer">
+        <div class="container">
+            <footer class="py-3">
+                <ul class="nav justify-content-center border-bottom pb-1 mb-1">
+                    <p>Unlock Your Potential: Discover Exciting Career Opportunities Today!</p>
+                </ul>
+                <p class="text-center text-body-secondary">&copy; 2024 ByteZen, Inc.</p>
+            </footer>
+        </div>
+    </div>
+
 </body>
 </html>

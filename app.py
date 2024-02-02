@@ -111,7 +111,7 @@ def apply_for_job():
         education=education,
         experience=experience,
         resume=resume_filename,  # Store just the filename
-        status="pending",
+        status="Pending",
     )
 
     # Add the new object to the session and commit it
@@ -172,6 +172,28 @@ def admin_monitoring():
 def update_status():
     return update_applicant_status()
 
+@app.route("/check_status", methods=["POST"])
+def check_status():
+    name = request.form.get("name")
+
+    if not name:
+        return jsonify({"success": False, "message": "Name is required"})
+
+    # Query the database for applicants with matching names
+    applicants = db_session.query(JobApplicant).filter(JobApplicant.name.ilike(f'%{name}%')).all()
+
+    if applicants:
+        # Prepare a list of matching applicants' data
+        matching_applicants = []
+        for applicant in applicants:
+            matching_applicants.append({
+                "name": applicant.name,
+                "job_title": applicant.job_title,
+                "status": applicant.status
+            })
+        return jsonify({"success": True, "applicants": matching_applicants})
+    else:
+        return jsonify({"success": False, "message": "No matching applicants found"})
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):

@@ -83,10 +83,10 @@
                         </td>
                         <td>
                             <select class="form-select" onchange="updateStatus(this, {{ applicant.id }})">
-                                <option value="pending" {% if applicant.status == 'pending' %}selected{% endif %}>Pending</option>
-                                <option value="interview" {% if applicant.status == 'interview' %}selected{% endif %}>Interview</option>
-                                <option value="accepted" {% if applicant.status == 'accepted' %}selected{% endif %}>Accepted</option>
-                                <option value="rejected" {% if applicant.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                <option value="Pending" {% if applicant.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option value="Interview" {% if applicant.status == 'Interview' %}selected{% endif %}>Interview</option>
+                                <option value="Accepted" {% if applicant.status == 'Accepted' %}selected{% endif %}>Accepted</option>
+                                <option value="Rejected" {% if applicant.status == 'Rejected' %}selected{% endif %}>Rejected</option>
                             </select>
                         </td>
                     </tr>
