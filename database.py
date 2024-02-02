@@ -29,6 +29,8 @@ class JobApplicant(Base):
   __tablename__ = 'job_applicants'
 
   id = Column(Integer, primary_key=True)
+  job_id = Column(Integer, nullable=False)
+  job_title = Column(String(250))
   name = Column(String(250), nullable=False)
   email = Column(String(250), nullable=False)
   linkedin = Column(String(250))

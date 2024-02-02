@@ -52,6 +52,17 @@ def show_job(job_id):
 
 @app.route("/apply", methods=["POST"])
 def apply_for_job():
+  job_id = request.form.get('job_id')
+  if job_id is None:
+    return "Job ID is required", 400
+
+  job = db_session.query(Job).get(job_id)
+  if not job:
+    return "Job not found", 404
+
+  # Now you have the job, you can get the job title
+  job_title = job.title
+  
   # Retrieve form data
   name = request.form['name']
   email = request.form['email']
@@ -61,18 +72,20 @@ def apply_for_job():
 
   # Process the resume file
   resume_file = request.files['resume']
-  resume_filename = save_resume(resume_file)  # This will be just the filename now
+  resume_filename = save_resume(resume_file)  # Make sure this is updated to just the filename
   if resume_filename is None:
     return "Invalid file format", 400
 
   # Create a new JobApplicant object and set its properties
   new_applicant = JobApplicant(
+    job_id=job_id,
+    job_title=job_title,
     name=name,
     email=email,
     linkedin=linkedin,
     education=education,
     experience=experience,
-    resume=resume_filename,  # Now storing just the filename
+    resume=resume_filename,  # Store just the filename
     status='pending'
   )
 
@@ -81,6 +94,7 @@ def apply_for_job():
   db_session.commit()
 
   # Redirect to a new confirmation page with the applicant's id
+  # Make sure this line is within the same block where new_applicant is defined
   return redirect(url_for('confirmation', applicant_id=new_applicant.id))
 
 @app.route("/confirmation/<int:applicant_id>")

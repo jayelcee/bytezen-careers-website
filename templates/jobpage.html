@@ -42,9 +42,10 @@
       <div class="application-form mt-5">
           <h2>Application Form</h2>
           <form action="/apply" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="job_id" value="{{ job.id }}">
               <div class="mb-3">
                   <label for="name" class="form-label">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Surname, First Name Middle Initial." required>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Given Name <space> Surname" required>
               </div>
               <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
