@@ -25,6 +25,18 @@ class Job(Base):
   responsibilities = Column(String(2000))
   requirements = Column(String(2000))
 
+class JobApplicant(Base):
+  __tablename__ = 'job_applicants'
+
+  id = Column(Integer, primary_key=True)
+  name = Column(String(250), nullable=False)
+  email = Column(String(250), nullable=False)
+  linkedin = Column(String(250))
+  education = Column(String(2000), nullable=False)
+  experience = Column(String(2000), nullable=False)
+  resume = Column(String)
+  status = Column(String(100), nullable=False, default='pending')
+
 # Function to initialize the database (create tables)
 def init_db():
     Base.metadata.create_all(bind=engine)
