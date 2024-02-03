@@ -15,7 +15,7 @@
   </head>  
   <body>
     {% include 'nav.html' %}
-    <img class = "img-fluid" id = "banner" src = "https://7d2ac619-79c1-4927-9088-5cdf6bd782d6-00-271gh9pkl7zr9.pike.replit.dev/static/banner.jpg">
+    <img class = "img-fluid" id = "banner" src = "https://7d2ac619-79c1-4927-9088-5cdf6bd782d6-00-271gh9pkl7zr9.pike.replit.dev/static/banner.png">
     <div class = "container">
     <h1 class = "text-center mt-4 mb-4">{{company_name}} Careers</h1>
     <p class = "lead">
@@ -26,10 +26,7 @@
       {% for job in jobs %}
         {% include 'jobitem.html' %}
       {% endfor %}
-    </div>
-    <div class = "text-center">
-      <button class = "btn btn-primary btn-lg">Contact Us</button>
-    </div>
+    </div><br/>
       {% include 'footer.html' %}
   </body>
 </html>

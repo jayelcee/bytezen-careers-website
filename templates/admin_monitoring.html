@@ -12,22 +12,20 @@
             max-width: 95%;
         }
         .wide-column {
-            width: 15%; /* Adjust the width as needed */
+            width: 15%; 
         }
         .narrow-column {
-            width: 10%; /* Adjust the width as needed */
+            width: 10%;
         }
         .table-responsive {
             min-height: .01%;
             overflow-x: auto;
         }
-        /* Add styles to ensure table cells don't wrap and use ellipsis for overflow */
         td {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        /* This will apply when the View links are clicked and content expands */
         .collapse-content {
             max-height: none;
             overflow: visible;
@@ -57,7 +55,7 @@
                     <tr>
                         <td>{{ applicant.name }}</td>
                         <td>{{ applicant.email }}</td>
-                        <td>{{ applicant.linkedin }}</td>
+                        <td><a href="{{ applicant.linkedin }}" target="_blank">LinkedIn Profile</a></td>
                         <td>
                             <a data-bs-toggle="collapse" href="#collapseEducation{{ applicant.id }}" role="button" aria-expanded="false" aria-controls="collapseEducation{{ applicant.id }}">
                                 View
@@ -102,7 +100,6 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                // Add your CSRF token here if CSRF protection is enabled
             },
             body: `applicant_id=${applicantId}&new_status=${selectElement.value}`
         })
@@ -110,10 +107,8 @@
         .then(data => {
             if (data.success) {
                 console.log(data.message);
-                // You can add any additional logic to handle a successful update
             } else {
                 console.log(data.message);
-                // You can add logic here to handle a failed update
             }
         })
         .catch(error => {

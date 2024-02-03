@@ -83,25 +83,21 @@ def apply_for_job():
     if not job:
         return "Job not found", 404
 
-    # Now you have the job, you can get the job title
     job_title = job.title
 
-    # Retrieve form data
     name = request.form["name"]
     email = request.form["email"]
-    linkedin = request.form.get("linkedin")  # .get() is used to handle optional fields
+    linkedin = request.form.get("linkedin") 
     education = request.form["education"]
     experience = request.form["experience"]
 
-    # Process the resume file
     resume_file = request.files["resume"]
     resume_filename = save_resume(
         resume_file
-    )  # Make sure this is updated to just the filename
+    )  
     if resume_filename is None:
         return "Invalid file format", 400
 
-    # Create a new JobApplicant object and set its properties
     new_applicant = JobApplicant(
         job_id=job_id,
         job_title=job_title,
@@ -110,27 +106,22 @@ def apply_for_job():
         linkedin=linkedin,
         education=education,
         experience=experience,
-        resume=resume_filename,  # Store just the filename
+        resume=resume_filename, 
         status="Pending",
     )
 
-    # Add the new object to the session and commit it
     db_session.add(new_applicant)
     db_session.commit()
 
-    # Redirect to a new confirmation page with the applicant's id
-    # Make sure this line is within the same block where new_applicant is defined
     return redirect(url_for("confirmation", applicant_id=new_applicant.id))
 
 
 @app.route("/confirmation/<int:applicant_id>")
 def confirmation(applicant_id):
-    # Retrieve the applicant's data from the database
     applicant = (
         db_session.query(JobApplicant).filter(JobApplicant.id == applicant_id).first()
     )
 
-    # Check if the applicant exists
     if applicant:
         return render_template("confirmation.html", applicant=applicant)
     else:
@@ -179,11 +170,9 @@ def check_status():
     if not name:
         return jsonify({"success": False, "message": "Name is required"})
 
-    # Query the database for applicants with matching names
     applicants = db_session.query(JobApplicant).filter(JobApplicant.name.ilike(f'%{name}%')).all()
 
     if applicants:
-        # Prepare a list of matching applicants' data
         matching_applicants = []
         for applicant in applicants:
             matching_applicants.append({

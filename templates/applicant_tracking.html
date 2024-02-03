@@ -9,16 +9,12 @@
 <body>
     {% include 'nav.html' %}
     <div class="container mt-5">
-
-        <!-- Search bar -->
         <form class="mb-3" id="searchForm">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search by Name" id="searchInput">
                 <button class="btn btn-primary" type="submit">Check Status</button>
             </div>
         </form><br/>
-
-        <!-- Table to display applicant information -->
         <table class="table">
             <thead>
                 <tr>
@@ -28,23 +24,21 @@
                 </tr>
             </thead>
             <tbody id="applicantTable">
-                <!-- Data will be populated here dynamically -->
             </tbody>
         </table>
 
     </div>
     <style>
-        /* Add CSS styles for the fixed footer */
         body {
-            margin-bottom: 80px; /* Adjust this value to fit your footer's height */
+            margin-bottom: 80px;
         }
 
         .fixed-footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-            background-color: #ffffff; /* Change the background color as needed */
-            padding: 10px 0; /* Adjust padding as needed */
+            background-color: #ffffff;
+            padding: 10px 0;
         }
     </style>
 
@@ -69,8 +63,6 @@
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const searchValue = searchInput.value.trim();
-            
-            // Fetch applicants with matching names
             fetch('/check_status', {
                 method: 'POST',
                 headers: {
@@ -81,7 +73,6 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Clear previous results
                     applicantTable.innerHTML = '';
                     
                     data.applicants.forEach(applicant => {
@@ -93,15 +84,13 @@
                         `;
                         applicantTable.appendChild(row);
 
-                        // Generate and update feedback messages based on status
                         let feedbackMessage = '';
 
                         if (applicant.status === 'Interview') {
-                            // Generate random date and time within the specified range
                             const interviewDate = new Date('2024-02-05');
                             interviewDate.setDate(interviewDate.getDate() + Math.floor(Math.random() * 5));
-                            const startTime = 8 + Math.floor(Math.random() * 9); // Random hour between 8 AM and 5 PM
-                            const minutes = Math.floor(Math.random() * 4) * 15; // Random multiple of 15 minutes
+                            const startTime = 8 + Math.floor(Math.random() * 9);
+                            const minutes = Math.floor(Math.random() * 4) * 15;
                             interviewDate.setHours(startTime, minutes);
 
                             feedbackMessage = `You have passed the initial credentials screening. Use the meeting link below for your interview that is scheduled on ${interviewDate.toLocaleDateString()} at ${interviewDate.toLocaleTimeString()}.<br><br><a href="https://feutech-edu-ph.zoom.us/j/97703339318?pwd=cEc3MnJnVXFLN21Vcml1LzY0Z1dmZz09" target="_blank">Join Zoom Meeting</a>`;
@@ -114,7 +103,6 @@
                             feedbackMessage = 'Your application is still under review. Please wait for further updates soon. Thank you!';
                         }
 
-                        // Create a feedback row and update the feedback message
                         const feedbackRow = document.createElement('tr');
                         feedbackRow.innerHTML = `
                             <td colspan="3">
@@ -125,8 +113,7 @@
                         applicantTable.appendChild(feedbackRow);
                     });
                 } else {
-                    // Handle the case when no matching applicants are found
-                    applicantTable.innerHTML = '<tr><td colspan="3">No matching applicants found</td></tr>';
+                    applicantTable.innerHTML = '<tr><td colspan="3">No matching applicants found.</td></tr>';
                     feedbackRow.style.display = 'none';
                 }
             })

@@ -39,6 +39,5 @@ class JobApplicant(Base):
   resume = Column(String)
   status = Column(String(100), nullable=False, default='pending')
 
-# Function to initialize the database (create tables)
 def init_db():
     Base.metadata.create_all(bind=engine)

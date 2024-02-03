@@ -6,11 +6,9 @@ def update_applicant_status():
         applicant_id = request.form.get('applicant_id')
         new_status = request.form.get('new_status')
 
-        # Retrieve the JobApplicant by id
         applicant = db_session.query(JobApplicant).get(applicant_id)
 
         if applicant:
-            # Update the status
             applicant.status = new_status
             db_session.commit()
             return jsonify({'success': True, 'message': 'Status updated successfully.'})
@@ -18,5 +16,4 @@ def update_applicant_status():
             return jsonify({'success': False, 'message': 'Applicant not found.'})
 
     except Exception as e:
-        # Log the exception here
         return jsonify({'success': False, 'message': 'An error occurred during the update.'})

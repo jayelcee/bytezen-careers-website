@@ -8,11 +8,10 @@
 </head>
 <body>
     {% include 'nav.html' %}
-    <br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <!-- Display flash messages here -->
                 {% with messages = get_flashed_messages() %}
                   {% if messages %}
                     <div class="alert alert-danger" role="alert">
@@ -38,17 +37,16 @@
         </div>
     </div>
     <style>
-        /* Add CSS styles for the fixed footer */
         body {
-            margin-bottom: 80px; /* Adjust this value to fit your footer's height */
+            margin-bottom: 80px; 
         }
 
         .fixed-footer {
             position: fixed;
             bottom: 0;
             width: 100%;
-            background-color: #ffffff; /* Change the background color as needed */
-            padding: 10px 0; /* Adjust padding as needed */
+            background-color: #ffffff; 
+            padding: 10px 0;
         }
     </style>
 
