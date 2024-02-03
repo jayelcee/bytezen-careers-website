@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Metadata and stylesheets -->
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Application Confirmation</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     </head>
     <body>
+        <!-- Navigation bar inclusion -->
         {% include 'nav.html' %}
         <div class="container mt-4">
+            <!-- Confirmation message -->
             <h3>Application Successful!</h3>
             <h4>Job Position: {{ applicant.job_title }}</h4><br/>
             <p>Thank you for your interest. Here is an overview of the data we received:</p>
 
+            <!-- Applicant information display -->
             <strong>Name:</strong> {{ applicant.name }}<br/><br/>
             <strong>Email:</strong> {{ applicant.email }}<br/><br/>
             <strong>LinkedIn URL:</strong> <a href="{{ applicant.linkedin }}">{{ applicant.linkedin }}</a><br/><br/>
@@ -23,6 +27,7 @@
             <p>Your application is now under review. Stay posted in our portal for updates.</p>
             <p>Go to 'Applicant Tracking' and search for your name as entered in the form.</p>
         </div>
+        <!-- Footer inclusion -->
         {% include 'footer.html' %}
     </body>
 </html>

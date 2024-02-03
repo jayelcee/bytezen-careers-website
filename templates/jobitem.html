@@ -1,19 +1,22 @@
+<!-- Individual job item with details and apply button -->
 <div class = "border-bottom row" style = "margin-bottom: 16px; padding-bottom: 8px;">
   <div class = "col-10">
-    <h4 
-      style = "color:rgb(120, 120, 120); margin-bottom: 4px;">
+    <h4 style = "color:rgb(120, 120, 120); margin-bottom: 4px;">
       {{job['title']}}
     </h4>
     <div>
+      <!-- Job location -->
       <b>Location:</b> {{job['location']}}
     </div>
     {% if 'salary' in job %}
     <div>
+      <!-- Job salary -->
       <b>Annual Salary:</b> {{job['salary']}}
     </div>
     {% endif %}
   </div>
   <div class="col-2">
+    <!-- Link to job application page -->
     <a href="{{ url_for('show_job', job_id=job['id']) }}" class="btn btn-outline-primary">Apply</a>
   </div>
 </div>

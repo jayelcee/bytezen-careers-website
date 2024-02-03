@@ -2,11 +2,13 @@
 <html lang="en">
 
 <head>
+    <!-- Page-specific styles -->
     <style>
         h2 {
             font-weight: normal;
         }
     </style>
+    <!-- Metadata and stylesheets -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apply for {{ job.title }}</title>
@@ -14,12 +16,15 @@
 </head>
 
 <body>
+    <!-- Navigation bar inclusion -->
     {% include 'nav.html' %}
     <div class="container mt-4">
+        <!-- Job title and details -->
         <h1 class="mb-3">{{ job.title }}</h1>
         <h2 class="h5 mb-3"><b>Location: </b>{{ job.location }}</h2>
         <h2 class="h5"><b>Annual Salary: </b>{{ job.salary }}</h2>
 
+        <!-- Job responsibilities section -->
         <div class="my-4">
             <h3>Responsibilities:</h3>
             <ul>
@@ -29,6 +34,7 @@
             </ul>
         </div>
 
+        <!-- Job requirements section -->
         <div class="my-4">
             <h3>Requirements:</h3>
             <ol>
@@ -38,41 +44,47 @@
             </ol>
         </div>
 
-      <div class="application-form mt-5">
-          <h2>Application Form</h2>
-          <form action="/apply" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="job_id" value="{{ job.id }}">
-              <div class="mb-3">
-                  <label for="name" class="form-label">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Given Name <space> Surname" required>
-              </div>
-              <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" required>
-              </div>
-              <div class="mb-3">
-                  <label for="linkedin" class="form-label">LinkedIn URL</label>
-                  <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/username">
-              </div>
-              <div class="mb-3">
-                  <label for="education" class="form-label">Education</label>
-                  <textarea class="form-control" id="education" name="education" placeholder="Briefly describe your educational background." required></textarea>
-              </div>
-              <div class="mb-3">
-                  <label for="experience" class="form-label">Work Experience</label>
-                  <textarea class="form-control" id="experience" name="experience" placeholder="Summarize your relevant work experience." required></textarea>
-              </div>
-              <div class="mb-3">
-                  <label for="resume" class="form-label">Resume</label>
-                  <input type="file" class="form-control" id="resume" name="resume" accept=".pdf" required>
-                  <div id="resumeHelp" class="form-text">Upload your resume in PDF format.</div>
-              </div>
-              <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-          </form>
-      </div>
+        <!-- Application form section -->
+        <div class="application-form mt-5">
+            <h2>Application Form</h2>
+            <form action="/apply" method="post" enctype="multipart/form-data">
+                <!-- Hidden field to carry job ID -->
+                <input type="hidden" name="job_id" value="{{ job.id }}">
+                <!-- Form fields for applicant information -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Given Name <space> Surname" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="linkedin" class="form-label">LinkedIn URL</label>
+                    <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/username">
+                </div>
+                <div class="mb-3">
+                    <label for="education" class="form-label">Education</label>
+                    <textarea class="form-control" id="education" name="education" placeholder="Briefly describe your educational background." required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="experience" class="form-label">Work Experience</label>
+                    <textarea class="form-control" id="experience" name="experience" placeholder="Summarize your relevant work experience." required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="resume" class="form-label">Resume</label>
+                    <!-- File input for resume upload -->
+                    <input type="file" class="form-control" id="resume" name="resume" accept=".pdf" required>
+                    <div id="resumeHelp" class="form-text">Upload your resume in PDF format.</div>
+                </div>
+                <!-- Submit button for the form -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
+    <!-- Footer inclusion -->
     {% include 'footer.html' %}
 </body>
 
