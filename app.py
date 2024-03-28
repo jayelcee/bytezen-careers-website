@@ -7,6 +7,8 @@ from database import db_session, Job, JobApplicant
 from file_saver import save_resume, UPLOAD_FOLDER
 from status_update import update_applicant_status
 import os
+import random
+import string
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -70,6 +72,11 @@ def show_job(job_id):
         return render_template("jobpage.html", job=job)  # Show job details page
     return "Job not found", 404  # Job not found error
 
+# Password generator for applicants
+def generate_password(length=8):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for i in range(length))
+
 # Route for applying to a job
 @app.route("/apply", methods=["POST"])
 def apply_for_job():
@@ -96,6 +103,10 @@ def apply_for_job():
     if resume_filename is None:
         return "Invalid file format", 400  # Validate resume file format
 
+    # Generate username and password for the applicant
+    username = f"{name.replace(' ', '').lower()}{random.randint(100, 999)}"
+    password = generate_password()
+
     # Create a new job applicant record
     new_applicant = JobApplicant(
         job_id=job_id,
@@ -107,6 +118,8 @@ def apply_for_job():
         experience=experience,
         resume=resume_filename,
         status="Pending",  # Set initial status as Pending
+        username=username,
+        password=password
     )
 
     # Add new applicant to the database and commit changes
@@ -154,6 +167,38 @@ def admin_login():
             return redirect(url_for("admin_login"))
 
     return render_template("admin_login.html")  # Show admin login page
+
+# Route for applicant login
+@app.route("/applicant-login", methods=["GET", "POST"])
+def applicant_login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        applicant = db_session.query(JobApplicant).filter_by(username=username, password=password).first()
+        if applicant:
+            session["applicant_id"] = applicant.id
+            return redirect(url_for("applicant_status"))
+        else:
+            flash("Invalid credentials. Please try again.")
+            return redirect(url_for("applicant_login"))
+
+    return render_template("applicant_login.html")
+
+# Route for applicant status
+@app.route("/applicant-status")
+def applicant_status():
+    applicant_id = session.get("applicant_id")
+    if not applicant_id:
+        return redirect(url_for("applicant_login"))
+
+    applicant = db_session.query(JobApplicant).get(applicant_id)
+    return render_template("applicant_status.html", applicant=applicant)
+
+# Route for applicant logout
+@app.route("/logout")
+def logout():
+    session.pop("applicant_id", None)
+    return redirect(url_for("bytezen"))
 
 # Route for admin monitoring
 @app.route("/admin-monitoring")

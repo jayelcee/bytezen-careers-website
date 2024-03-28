@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata and stylesheets -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Status</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation bar inclusion -->
+    {% include 'nav_applicant.html' %}
+    <div class="container mt-5"><br/>
+        <!-- Applicant status display -->
+        <h3 style="margin-left: 7px;">Status for Applicant: {{ applicant.name }}</h3><br/>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Job Title</th>
+                    <th>Application Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ applicant.name }}</td>
+                    <td>{{ applicant.job_title }}</td>
+                    <td>{{ applicant.status }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div style="margin-top: 25px; margin-bottom: 25px;" id="feedbackMessage"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Page-specific styles -->
+    <style>
+        body {
+            margin-bottom: 80px;
+        }
+
+        .fixed-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 10px 0;
+        }
+    </style>
+
+    <!-- Fixed footer with company information -->
+    <div class="fixed-footer">
+        <div class="container">
+            <footer class="py-3">
+                <ul class="nav justify-content-center border-bottom pb-1 mb-1">
+                    <p>Unlock Your Potential: Discover Exciting Career Opportunities Today!</p>
+                </ul>
+                <p class="text-center text-body-secondary">&copy; 2024 ByteZen, Inc.</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- JavaScript for generating feedback message -->
+    <script>
+        const status = "{{ applicant.status }}";
+        const jobTitle = "{{ applicant.job_title }}";
+        const feedbackMessage = document.getElementById("feedbackMessage");
+
+        if (status === "Interview") {
+            const interviewDate = new Date("2024-04-05");
+            interviewDate.setDate(interviewDate.getDate() + Math.floor(Math.random() * 5));
+            const startTime = 8 + Math.floor(Math.random() * 9);
+            const minutes = Math.floor(Math.random() * 4) * 15;
+            interviewDate.setHours(startTime, minutes);
+
+            feedbackMessage.innerHTML = `You have passed the initial credentials screening. Use the meeting link below for your interview that is scheduled on ${interviewDate.toLocaleDateString()} at ${interviewDate.toLocaleTimeString()}.<br><br><a href="https://feutech-edu-ph.zoom.us/j/97703339318?pwd=cEc3MnJnVXFLN21Vcml1LzY0Z1dmZz09" target="_blank">Join Zoom Meeting</a>`;
+        } else if (status === "Accepted") {
+            feedbackMessage.innerHTML = `You are qualified to work as a/an ${jobTitle} at ByteZen. Please check your email to read and accept the official terms of employment. Congratulations and welcome aboard!`;
+        } else if (status === "Rejected") {
+            feedbackMessage.innerHTML = `Upon careful review of your application, we are sorry to inform you that you have not met our qualifications for the ${jobTitle} position.`;
+        } else if (status === "Pending") {
+            feedbackMessage.innerHTML = "Your application is still under review. Please wait for further updates soon. Thank you!";
+        }
+    </script>
+</body>
+</html>

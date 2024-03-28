@@ -24,8 +24,13 @@
             <strong>Experience:</strong><pre><br/>{{ applicant.experience }}</pre>
             <strong>Resume:</strong> <a href="{{ url_for('uploaded_file', filename=applicant.resume) }}" target="_blank">View Resume</a><br/><br/>
 
-            <p>Your application is now under review. Stay posted in our portal for updates.</p>
-            <p>Go to 'Applicant Tracking' and search for your name as entered in the form.</p>
+            <p>Your application is now under review. Stay posted in your portal for updates.</p>
+            <p>Go to 'Applicant Portal' and login with these credentials.</p>
+
+            <strong>Username:</strong> {{ applicant.username }}<br/>
+            <strong>Password:</strong> {{ applicant.password }}<br/><br/>
+
+            <p>Note: Remember your username and password. This will only be shown once. Take a screenshot!</p>
         </div>
         <!-- Footer inclusion -->
         {% include 'footer.html' %}

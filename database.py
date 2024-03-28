@@ -45,6 +45,8 @@ class JobApplicant(Base):
     experience = Column(String(2000), nullable=False)
     resume = Column(String)
     status = Column(String(100), nullable=False, default='pending')
+    username = Column(String(250), unique=True)
+    password = Column(String(250))
 
 # Function to initialize the database with the defined models
 def init_db():
