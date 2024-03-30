@@ -3,7 +3,8 @@ from flask import (
     Flask, render_template, jsonify, request, redirect, url_for, 
     send_from_directory, session, flash,
 )
-from database import db_session, Job, JobApplicant
+import psycopg2
+from database import db_session, Job, JobApplicant, Employee
 from file_saver import save_resume, UPLOAD_FOLDER
 from status_update import update_applicant_status
 import os
@@ -14,6 +15,75 @@ import string
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.secret_key = os.getenv("FLASK_SECRET_KEY")  # Setting secret key from environment variable
+
+# Route to load employees from the database
+@app.route('/load_employees')
+def load_employees_route():
+    employees = load_employees()
+    return jsonify({"employees": employees})
+
+# Function to load employees from the database
+def load_employees():
+    # Retrieve only employees whose status is 'Accepted'
+    employees = db_session.query(Employee).filter(Employee.status == 'Accepted').all()
+    employees_data = [
+        {
+            "id": employee.id,
+            "name": employee.name,
+            "age": employee.age,
+            "birthday": employee.birthday,
+            "position": employee.position,
+            "phone_number": employee.phone_number,
+            "email": employee.email,
+            "address": employee.address,
+            "salary": employee.salary,
+            "gender": employee.gender,
+            "nationality": employee.nationality,
+            "status": employee.status,  
+            "username": employee.username,
+            "password": employee.password,
+            "is_deleted": employee.is_deleted
+        }
+        for employee in employees
+    ]
+    return employees_data
+
+# Route to add an employee
+@app.route("/employees")
+def employees():
+    employees = load_employees()  # Load employees from the database
+    return render_template("employees.html", employees=employees)
+
+# Database connection function
+def get_db_connection():
+    try:
+        conn = psycopg2.connect(
+            dbname='bytezen_careers_db',
+            user='bytezen_careers_db_user',
+            password='tQMQEPV4eK0QB8AvL7EhTDVS2YrmXRQt',
+            host='dpg-cmp6tqol5elc73fn9e20-a.singapore-postgres.render.com',
+            port='5432'
+        )
+        return conn
+    except psycopg2.Error as e:
+        error_message = f"Error connecting to the database: {str(e)}"
+    print(error_message)
+    return None
+
+# Route to delete an employee
+@app.route('/delete_employee', methods=['POST'])
+def delete_employee():
+    employee_id = request.form.get('id')
+    if employee_id:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        # Update the is_deleted field to 1 for the given employee ID instead of deleting the row
+        cursor.execute('UPDATE employee SET is_deleted = 1 WHERE id = %s', (employee_id,))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False, 'message': 'No employee ID provided'})
 
 # Function to load jobs from the database
 def load_jobs_from_db(job_id=None):

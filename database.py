@@ -48,6 +48,25 @@ class JobApplicant(Base):
     username = Column(String(250), unique=True)
     password = Column(String(250))
 
+# Defining the Employee model with its respective fields
+class Employee(Base):
+    __tablename__ = 'employee'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    age = Column(Integer, nullable=False)
+    birthday = Column(String(250), nullable=False)
+    position = Column(String(250), nullable=False)
+    phone_number = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    address = Column(String(250), nullable=False)
+    salary = Column(Integer, default=0)
+    gender = Column(String(250), nullable=False)
+    nationality = Column(String(250), nullable=False)
+    status = Column(String(250), nullable=False)
+    username = Column(String(250), unique=True)
+    password = Column(String(250))
+    is_deleted = Column(Integer, default=0)
 # Function to initialize the database with the defined models
 def init_db():
     Base.metadata.create_all(bind=engine)
