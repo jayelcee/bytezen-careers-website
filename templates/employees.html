@@ -37,6 +37,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Age</th>
                     <th>Birthday</th>
@@ -82,6 +83,7 @@
                         if (employee.status === 'Accepted' && employee.is_deleted == '0') {
                             const row = document.createElement('tr');
                             row.innerHTML = `
+                                <td>${employee.id}</td>
                                 <td>${employee.name}</td>
                                 <td>${employee.age}</td>
                                 <td>${employee.birthday}</td>
@@ -109,9 +111,9 @@
         };
     
         function updateEmployee(id) {
-            // Implement update logic here
-            console.log('Update employee with ID:', id);
+            window.location.href = `/update_employee?id=${id}`;
         }
+
     
         function deleteEmployee(id, button) {
     // Send a request to the server to soft delete the employee

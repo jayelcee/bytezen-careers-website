@@ -85,6 +85,24 @@ def delete_employee():
     else:
         return jsonify({'success': False, 'message': 'No employee ID provided'})
 
+@app.route('/update_employee')
+def update_employee():
+    employee_id = request.args.get('id')
+    if employee_id:
+        return render_template('update_employee.html', employee_id=employee_id)
+    else:
+        return "Employee ID is required", 400
+
+@app.route('/get_employee_details')
+def get_employee_details():
+    employee_id = request.args.get('id')
+    employee = employees.get(employee_id)
+    if employee:
+        return jsonify(employee)
+    else:
+        return jsonify({"error": "Employee not found"}), 404
+
+
 # Function to load jobs from the database
 def load_jobs_from_db(job_id=None):
     query = db_session.query(Job)
