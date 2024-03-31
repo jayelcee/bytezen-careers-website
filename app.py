@@ -16,15 +16,15 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.secret_key = os.getenv("FLASK_SECRET_KEY")  # Setting secret key from environment variable
 
-# Route to load employees from the database
+# Route to load applicants from the database
 @app.route('/load_applicants')
 def load_applicants_route():
     applicants = load_applicants()
     return jsonify({"applicants": applicants})
 
-# Function to load employees from the database
+# Function to load applicants from the database
 def load_applicants():
-    # Retrieve only employees whose status is 'Accepted'
+    # Retrieve only applicants whose status is 'Accepted'
     applicants = db_session.query(JobApplicant).filter(JobApplicant.status == 'Accepted').all()
     applicants_data = [
         {
@@ -48,10 +48,10 @@ def load_applicants():
     ]
     return applicants_data
 
-# Route to add an employee
+# Route to add an applicant
 @app.route("/applicants")
 def applicants():
-    applicants = load_applicants()  # Load employees from the database
+    applicants = load_applicants()  # Load applicants from the database
     return render_template("applicants.html", applicants=applicants)
 
 # Database connection function
@@ -70,37 +70,96 @@ def get_db_connection():
     print(error_message)
     return None
 
-# Route to delete an employee
+# Route to delete an applicant
 @app.route('/delete_applicant', methods=['POST'])
 def delete_applicant():
     applicant_id = request.form.get('id')
     if applicant_id:
         conn = get_db_connection()
         cursor = conn.cursor()
-        # Update the is_deleted field to 1 for the given employee ID instead of deleting the row
+        # Update the is_deleted field to 1 for the given applicant ID instead of deleting the row
         cursor.execute('UPDATE job_applicants SET is_deleted = 1 WHERE id = %s', (applicant_id,))
         conn.commit()
         conn.close()
         return jsonify({'success': True})
     else:
-        return jsonify({'success': False, 'message': 'No employee ID provided'})
+        return jsonify({'success': False, 'message': 'No Applicant ID provided'})
 
-@app.route('/update_applicant')
+@app.route('/update_applicant', methods=['GET', 'POST'])
 def update_applicant():
-    applicant_id = request.args.get('id')
-    if applicant_id:
-        return render_template('update_applicant.html', applicant_id=applicant_id)
-    else:
-        return "Employee ID is required", 400
+    if request.method == 'POST':
+        applicant_id = request.args.get('id')
+        if not applicant_id:
+            return jsonify({'success': False, 'message': 'Applicant ID is required'}), 400
+
+        # Extract form data
+        name = request.form.get('name')
+        age = request.form.get('age')
+        birthday = request.form.get('birthday')
+        job_title = request.form.get('job_title')
+        phone_number = request.form.get('phone_number')
+        email = request.form.get('email')
+        address = request.form.get('address')
+        gender = request.form.get('gender')
+        nationality = request.form.get('nationality')
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Find the applicant in the database
+        applicant = db_session.query(JobApplicant).filter_by(id=applicant_id).first()
+        if not applicant:
+            return jsonify({'success': False, 'message': 'Applicant not found'}), 404
+
+        # Update applicant details
+        applicant.name = name
+        applicant.age = age
+        applicant.birthday = birthday
+        applicant.job_title = job_title
+        applicant.phone_number = phone_number
+        applicant.email = email
+        applicant.address = address
+        applicant.gender = gender
+        applicant.nationality = nationality
+        applicant.username = username
+        applicant.password = password
+
+        # Commit the changes to the database
+        db_session.commit()
+
+        return jsonify({'success': True})
+
+    elif request.method == 'GET':
+        applicant_id = request.args.get('id')
+        if applicant_id:
+            return render_template('update_applicant.html', applicant_id=applicant_id)
+        else:
+            return "Applicant ID is required", 400
+
 
 @app.route('/get_applicant_details')
 def get_applicant_details():
     applicant_id = request.args.get('id')
-    applicant = applicants.get(applicant_id)
-    if applicant:
-        return jsonify(applicant)
+    if applicant_id:
+        applicant = db_session.query(JobApplicant).filter_by(id=applicant_id).first()
+        if applicant:
+            return jsonify({
+                "name": applicant.name,
+                "age": applicant.age,
+                "birthday": applicant.birthday,
+                "job_title": applicant.job_title,
+                "phone_number": applicant.phone_number,
+                "email": applicant.email,
+                "address": applicant.address,
+                "gender": applicant.gender,
+                "nationality": applicant.nationality,
+                "username": applicant.username,
+                "password": applicant.password
+            })
+        else:
+            return jsonify({"error": "Applicant not found"}), 404
     else:
-        return jsonify({"error": "Employee not found"}), 404
+        return jsonify({"error": "Applicant ID is required"}), 400
+
 
 
 # Function to load jobs from the database

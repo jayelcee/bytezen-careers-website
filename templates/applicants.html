@@ -33,7 +33,7 @@
     <!-- Navigation bar inclusion -->
     {% include 'nav_admin_tracking.html' %}
     <div class="container-fluid mt-5"> <!-- Changed to container-fluid -->
-        <!-- Table to display employee details -->
+        <!-- Table to display applicant details -->
         <table class="table">
             <thead>
                 <tr>
@@ -53,7 +53,7 @@
                 </tr>
             </thead>
             <tbody id="applicantTable">
-                <!-- Employee data will be populated here -->
+                <!-- Applicant data will be populated here -->
             </tbody>
         </table>
     </div>
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <!-- JavaScript to fetch and display employee data -->
+    <!-- JavaScript to fetch and display applicant data -->
     <script>
         window.onload = function() {
             fetch('/load_applicants')
@@ -78,7 +78,7 @@
                 .then(data => {
                     const applicantTable = document.getElementById('applicantTable');
                     data.applicants.forEach(job_applicants => {
-                        // Check if employee status is 'Accepted' and not deleted
+                        // Check if applicant status is 'Accepted' and not deleted
                         if (job_applicants.status === 'Accepted' && job_applicants.is_deleted == '0') {
                             const row = document.createElement('tr');
                             row.innerHTML = `
@@ -95,8 +95,8 @@
                                 <td>${job_applicants.username}</td>
                                 <td>${job_applicants.password}</td>
                                 <td>
-                                    <button class="btn btn-primary" onclick="updateEmployee(${job_applicants.id})">Update</button>
-                                    <button class="btn btn-danger" onclick="deleteEmployee(${job_applicants.id}, this)">Delete</button>
+                                    <button class="btn btn-primary" onclick="updateApplicant(${job_applicants.id})">Update</button>
+                                    <button class="btn btn-danger" onclick="deleteApplicant(${job_applicants.id}, this)">Delete</button>
                                 </td>
                             `;
                             applicantTable.appendChild(row);
@@ -108,14 +108,14 @@
                 });
         };
     
-        function updateEmployee(id) {
-            window.location.href = `/update_employee?id=${id}`;
+        function updateApplicant(id) {
+            window.location.href = `/update_applicant?id=${id}`;
         }
 
     
-        function deleteEmployee(id, button) {
-    // Send a request to the server to soft delete the employee
-    fetch('/delete_applicant', { // Note that the endpoint may need to be changed to '/delete_employee'
+        function deleteApplicant(id, button) {
+    // Send a request to the server to soft delete the applicant
+    fetch('/delete_applicant', { // Note that the endpoint may need to be changed to '/delete_applicant'
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -129,7 +129,7 @@
             const row = button.closest('tr');
             row.style.display = 'none'; // Hides the row instead of removing it, in case you need to undo the delete
         } else {
-            console.error('Failed to delete employee:', data.message);
+            console.error('Failed to delete applicant:', data.message);
         }
     })
     .catch(error => {
