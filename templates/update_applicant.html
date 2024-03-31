@@ -86,11 +86,11 @@
     <script>
         // Parse the URL to get the employee ID
         const urlParams = new URLSearchParams(window.location.search);
-        const employeeId = urlParams.get('id');
+        const applicantId = urlParams.get('id');
 
         window.onload = function() {
             // Fetch the employee details using the ID and populate the form
-            fetch(`/get_employee_details?id=${employeeId}`)
+            fetch(`/get_applicant_details?id=${applicantId}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('name').value = data.name;
@@ -115,7 +115,7 @@
             event.preventDefault();
             // Update the employee details using the form data
             const formData = new FormData(this);
-            fetch(`/update_employee?id=${employeeId}`, {
+            fetch(`/update_applicant?id=${applicantId}`, {
                 method: 'POST',
                 body: formData
             })
@@ -123,7 +123,7 @@
                 .then(data => {
                     if (data.success) {
                         // Redirect back to the employee list
-                        window.location.href = 'employees.html';
+                        window.location.href = 'applicants.html';
                     } else {
                         alert('Failed to update employee: ' + data.message);
                     }

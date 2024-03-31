@@ -4,7 +4,7 @@ from flask import (
     send_from_directory, session, flash,
 )
 import psycopg2
-from database import db_session, Job, JobApplicant, Employee
+from database import db_session, Job, JobApplicant
 from file_saver import save_resume, UPLOAD_FOLDER
 from status_update import update_applicant_status
 import os
@@ -17,42 +17,42 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.secret_key = os.getenv("FLASK_SECRET_KEY")  # Setting secret key from environment variable
 
 # Route to load employees from the database
-@app.route('/load_employees')
-def load_employees_route():
-    employees = load_employees()
-    return jsonify({"employees": employees})
+@app.route('/load_applicants')
+def load_applicants_route():
+    applicants = load_applicants()
+    return jsonify({"applicants": applicants})
 
 # Function to load employees from the database
-def load_employees():
+def load_applicants():
     # Retrieve only employees whose status is 'Accepted'
-    employees = db_session.query(Employee).filter(Employee.status == 'Accepted').all()
-    employees_data = [
+    applicants = db_session.query(JobApplicant).filter(JobApplicant.status == 'Accepted').all()
+    applicants_data = [
         {
-            "id": employee.id,
-            "name": employee.name,
-            "age": employee.age,
-            "birthday": employee.birthday,
-            "position": employee.position,
-            "phone_number": employee.phone_number,
-            "email": employee.email,
-            "address": employee.address,
-            "salary": employee.salary,
-            "gender": employee.gender,
-            "nationality": employee.nationality,
-            "status": employee.status,  
-            "username": employee.username,
-            "password": employee.password,
-            "is_deleted": employee.is_deleted
+            "id": job_applicants.id,
+            "job_id": job_applicants.job_id,
+            "job_title": job_applicants.job_title,
+            "name": job_applicants.name,
+            "age": job_applicants.age,
+            "birthday": job_applicants.birthday,
+            "phone_number": job_applicants.phone_number,
+            "email": job_applicants.email,
+            "address": job_applicants.address,
+            "gender": job_applicants.gender,
+            "nationality": job_applicants.nationality,
+            "status": job_applicants.status,  
+            "username": job_applicants.username,
+            "password": job_applicants.password,
+            "is_deleted": job_applicants.is_deleted
         }
-        for employee in employees
+        for job_applicants in applicants
     ]
-    return employees_data
+    return applicants_data
 
 # Route to add an employee
-@app.route("/employees")
-def employees():
-    employees = load_employees()  # Load employees from the database
-    return render_template("employees.html", employees=employees)
+@app.route("/applicants")
+def applicants():
+    applicants = load_applicants()  # Load employees from the database
+    return render_template("applicants.html", applicants=applicants)
 
 # Database connection function
 def get_db_connection():
@@ -71,34 +71,34 @@ def get_db_connection():
     return None
 
 # Route to delete an employee
-@app.route('/delete_employee', methods=['POST'])
-def delete_employee():
-    employee_id = request.form.get('id')
-    if employee_id:
+@app.route('/delete_applicant', methods=['POST'])
+def delete_applicant():
+    applicant_id = request.form.get('id')
+    if applicant_id:
         conn = get_db_connection()
         cursor = conn.cursor()
         # Update the is_deleted field to 1 for the given employee ID instead of deleting the row
-        cursor.execute('UPDATE employee SET is_deleted = 1 WHERE id = %s', (employee_id,))
+        cursor.execute('UPDATE job_applicants SET is_deleted = 1 WHERE id = %s', (applicant_id,))
         conn.commit()
         conn.close()
         return jsonify({'success': True})
     else:
         return jsonify({'success': False, 'message': 'No employee ID provided'})
 
-@app.route('/update_employee')
-def update_employee():
-    employee_id = request.args.get('id')
-    if employee_id:
-        return render_template('update_employee.html', employee_id=employee_id)
+@app.route('/update_applicant')
+def update_applicant():
+    applicant_id = request.args.get('id')
+    if applicant_id:
+        return render_template('update_applicant.html', applicant_id=applicant_id)
     else:
         return "Employee ID is required", 400
 
-@app.route('/get_employee_details')
-def get_employee_details():
-    employee_id = request.args.get('id')
-    employee = employees.get(employee_id)
-    if employee:
-        return jsonify(employee)
+@app.route('/get_applicant_details')
+def get_applicant_details():
+    applicant_id = request.args.get('id')
+    applicant = applicants.get(applicant_id)
+    if applicant:
+        return jsonify(applicant)
     else:
         return jsonify({"error": "Employee not found"}), 404
 

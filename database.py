@@ -39,34 +39,22 @@ class JobApplicant(Base):
     job_id = Column(Integer, nullable=False)
     job_title = Column(String(250))
     name = Column(String(250), nullable=False)
+    age = Column(Integer, nullable=False)
+    birthday = Column(String(250), nullable=False)
+    phone_number = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
+    address = Column(String(250), nullable=False)
     linkedin = Column(String(250))
     education = Column(String(2000), nullable=False)
     experience = Column(String(2000), nullable=False)
     resume = Column(String)
+    gender = Column(String(250), nullable=False)
+    nationality = Column(String(250), nullable=False)
     status = Column(String(100), nullable=False, default='pending')
     username = Column(String(250), unique=True)
     password = Column(String(250))
-
-# Defining the Employee model with its respective fields
-class Employee(Base):
-    __tablename__ = 'employee'
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    age = Column(Integer, nullable=False)
-    birthday = Column(String(250), nullable=False)
-    position = Column(String(250), nullable=False)
-    phone_number = Column(String(250), nullable=False)
-    email = Column(String(250), nullable=False)
-    address = Column(String(250), nullable=False)
-    salary = Column(Integer, default=0)
-    gender = Column(String(250), nullable=False)
-    nationality = Column(String(250), nullable=False)
-    status = Column(String(250), nullable=False)
-    username = Column(String(250), unique=True)
-    password = Column(String(250))
     is_deleted = Column(Integer, default=0)
+
 # Function to initialize the database with the defined models
 def init_db():
     Base.metadata.create_all(bind=engine)

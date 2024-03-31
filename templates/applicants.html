@@ -4,7 +4,7 @@
     <!-- Metadata and stylesheets -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Employee</title>
+    <title>Manage Applicant</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Custom styles for better spacing */
@@ -38,14 +38,14 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Job ID</th>
                     <th>Name</th>
                     <th>Age</th>
                     <th>Birthday</th>
-                    <th>Position</th>
+                    <th>Job Title</th>
                     <th>Phone Number</th>
                     <th>Email</th>
                     <th>Address</th>
-                    <th>Salary</th>
                     <th>Gender</th>
                     <th>Nationality</th>
                     <th>Username</th>
@@ -53,7 +53,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="employeeTable">
+            <tbody id="applicantTable">
                 <!-- Employee data will be populated here -->
             </tbody>
         </table>
@@ -74,34 +74,35 @@
     <!-- JavaScript to fetch and display employee data -->
     <script>
         window.onload = function() {
-            fetch('/load_employees')
+            fetch('/load_applicants')
                 .then(response => response.json())
                 .then(data => {
-                    const employeeTable = document.getElementById('employeeTable');
-                    data.employees.forEach(employee => {
+                    const applicantTable = document.getElementById('applicantTable');
+                    data.applicants.forEach(job_applicants => {
                         // Check if employee status is 'Accepted' and not deleted
-                        if (employee.status === 'Accepted' && employee.is_deleted == '0') {
+                        if (job_applicants.status === 'Accepted' && job_applicants.is_deleted == '0') {
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                                <td>${employee.id}</td>
-                                <td>${employee.name}</td>
-                                <td>${employee.age}</td>
-                                <td>${employee.birthday}</td>
-                                <td>${employee.position}</td>
-                                <td>${employee.phone_number}</td>
-                                <td>${employee.email}</td>
-                                <td>${employee.address}</td>
-                                <td>${employee.salary}</td>
-                                <td>${employee.gender}</td>
-                                <td>${employee.nationality}</td>
-                                <td>${employee.username}</td>
-                                <td>${employee.password}</td>
+                                <td>${job_applicants.id}</td>
+                                <td>${job_applicants.job_id}</td>
+                                <td>${job_applicants.name}</td>
+                                <td>${job_applicants.age}</td>
+                                <td>${job_applicants.birthday}</td>
+                                <td>${job_applicants.job_title}</td>
+                                <td>${job_applicants.phone_number}</td>
+                                <td>${job_applicants.email}</td>
+                                <td>${job_applicants.address}</td>
+                                <td>${job_applicants.salary}</td>
+                                <td>${job_applicants.gender}</td>
+                                <td>${job_applicants.nationality}</td>
+                                <td>${job_applicants.username}</td>
+                                <td>${job_applicants.password}</td>
                                 <td>
-                                    <button class="btn btn-primary" onclick="updateEmployee(${employee.id})">Update</button>
-                                    <button class="btn btn-danger" onclick="deleteEmployee(${employee.id}, this)">Delete</button>
+                                    <button class="btn btn-primary" onclick="updateEmployee(${job_applicants.id})">Update</button>
+                                    <button class="btn btn-danger" onclick="deleteEmployee(${job_applicants.id}, this)">Delete</button>
                                 </td>
                             `;
-                            employeeTable.appendChild(row);
+                            applicantTable.appendChild(row);
                         }
                     });
                 })
@@ -117,7 +118,7 @@
     
         function deleteEmployee(id, button) {
     // Send a request to the server to soft delete the employee
-    fetch('/delete_employee', { // Note that the endpoint may need to be changed to '/delete_employee'
+    fetch('/delete_applicant', { // Note that the endpoint may need to be changed to '/delete_employee'
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
