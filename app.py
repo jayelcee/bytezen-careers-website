@@ -96,7 +96,6 @@ def update_applicant():
         name = request.form.get('name')
         age = request.form.get('age')
         birthday = request.form.get('birthday')
-        job_title = request.form.get('job_title')
         phone_number = request.form.get('phone_number')
         email = request.form.get('email')
         address = request.form.get('address')
@@ -114,7 +113,6 @@ def update_applicant():
         applicant.name = name
         applicant.age = age
         applicant.birthday = birthday
-        applicant.job_title = job_title
         applicant.phone_number = phone_number
         applicant.email = email
         applicant.address = address
