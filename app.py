@@ -245,10 +245,16 @@ def apply_for_job():
 
     # Extract applicant details from the form
     name = request.form["name"]
+    age = request.form["age"]
+    birthday = request.form["birthday"]
+    phone_number = request.form["phone_number"]
     email = request.form["email"]
+    address = request.form["address"]
     linkedin = request.form.get("linkedin") 
     education = request.form["education"]
     experience = request.form["experience"]
+    gender = request.form["gender"]
+    nationality = request.form["nationality"]
 
     resume_file = request.files["resume"]
     resume_filename = save_resume(resume_file)  # Save the resume file
@@ -264,10 +270,16 @@ def apply_for_job():
         job_id=job_id,
         job_title=job_title,
         name=name,
+        age=age,
+        birthday=birthday,
+        phone_number=phone_number,
         email=email,
+        address=address,
         linkedin=linkedin,
         education=education,
         experience=experience,
+        gender=gender,
+        nationality=nationality,
         resume=resume_filename,
         status="Pending",  # Set initial status as Pending
         username=username,

@@ -22,7 +22,7 @@
         <!-- Job title and details -->
         <h1 class="mb-3">{{ job.title }}</h1>
         <h2 class="h5 mb-3"><b>Location: </b>{{ job.location }}</h2>
-        <h2 class="h5"><b>Annual Salary: </b>{{ job.salary }}</h2>
+        <h2 class="h5 mb-3"><b>Annual Salary: </b>{{ job.salary }}</h2>
 
         <!-- Job responsibilities section -->
         <div class="my-4">
@@ -56,8 +56,24 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Given Name <space> Surname" required>
                 </div>
                 <div class="mb-3">
+                    <label for="age" class="form-label">Age</label>
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Age"required>
+                </div>
+                <div class="mb-3">
+                    <label for="birthday" class="form-label">Birthday</label>
+                    <input type="date" class="form-control" id="birthday" name="birthday" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Phone Number" required>
+                </div>
+                <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control" id="address" name="address" placeholder="Enter your address" required></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="linkedin" class="form-label">LinkedIn URL</label>
@@ -76,6 +92,19 @@
                     <!-- File input for resume upload -->
                     <input type="file" class="form-control" id="resume" name="resume" accept=".pdf" required>
                     <div id="resumeHelp" class="form-text">Upload your resume in PDF format.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" id="gender" name="gender" required>
+                        <option value="">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="nationality" class="form-label">Nationality</label>
+                    <input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nationality"required>
                 </div>
                 <!-- Submit button for the form -->
                 <div class="text-center">
