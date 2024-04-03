@@ -41,7 +41,6 @@ def load_applicants():
             "nationality": job_applicants.nationality,
             "status": job_applicants.status,  
             "username": job_applicants.username,
-            "password": job_applicants.password,
             "is_deleted": job_applicants.is_deleted
         }
         for job_applicants in applicants
