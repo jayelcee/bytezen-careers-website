@@ -26,10 +26,17 @@ def load_applicants_route():
 def load_applicants():
     # Retrieve only applicants whose status is 'Accepted'
     applicants = db_session.query(JobApplicant).filter(JobApplicant.status == 'Accepted').all()
-    applicants_data = [
-        {
+    applicants_data = []
+    for job_applicants in applicants:
+        job_id = job_applicants.job_id
+        job = db_session.query(Job).filter(Job.id == job_id).first()
+        if job:
+            salary = f"{job.currency} {job.salary:,.2f}"
+        else:
+            salary = "N/A"
+        applicant_data = {
             "id": job_applicants.id,
-            "job_id": job_applicants.job_id,
+            "job_id": job_id,
             "job_title": job_applicants.job_title,
             "name": job_applicants.name,
             "age": job_applicants.age,
@@ -39,13 +46,14 @@ def load_applicants():
             "address": job_applicants.address,
             "gender": job_applicants.gender,
             "nationality": job_applicants.nationality,
-            "status": job_applicants.status,  
+            "status": job_applicants.status,
             "username": job_applicants.username,
-            "is_deleted": job_applicants.is_deleted
+            "is_deleted": job_applicants.is_deleted,
+            "salary": salary  # Add salary to the applicant data
         }
-        for job_applicants in applicants
-    ]
+        applicants_data.append(applicant_data)
     return applicants_data
+
 
 # Route to add an applicant
 @app.route("/applicants")
