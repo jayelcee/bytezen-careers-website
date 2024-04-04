@@ -1,142 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Metadata and stylesheets -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manage Applicant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-        /* Custom styles for better spacing */
-        .table th, .table td {
-            white-space: nowrap;
-            padding: 0.5rem 1rem; /* Adjust padding as needed */
-        }
+      /* Custom styles for better spacing */
+      .table th,
+      .table td {
+        white-space: nowrap;
+        padding: 0.5rem 1rem; /* Adjust padding as needed */
+      }
 
-        /* Remove left padding from the body */
-        body {
-            padding-left: 0;
-            margin-bottom: 80px;
-        }
+      /* Remove left padding from the body */
+      body {
+        padding-left: 0;
+        margin-bottom: 80px;
+      }
 
-        .fixed-footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #ffffff;
-            padding: 10px 0;
-        }
+      .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #ffffff;
+        padding: 10px 0;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Navigation bar inclusion -->
     {% include 'nav_admin_tracking.html' %}
-    <div class="container-fluid mt-5"> <!-- Changed to container-fluid -->
-        <!-- Table to display applicant details -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Birthday</th>
-                    <th>Job Title</th>
-                    <th>Salary</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Gender</th>
-                    <th>Nationality</th>
-                    <th>Username</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="applicantTable">
-                <!-- Applicant data will be populated here -->
-            </tbody>
-        </table>
+    <div class="container-fluid mt-5">
+      <!-- Changed to container-fluid -->
+      <!-- Table to display applicant details -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Birthday</th>
+            <th>Job Title</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Gender</th>
+            <th>Nationality</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="applicantTable">
+          <!-- Applicant data will be populated here -->
+        </tbody>
+      </table>
     </div>
 
     <!-- Fixed footer with company information -->
     <div class="fixed-footer">
-        <div class="container">
-            <footer class="py-3">
-                <ul class="nav justify-content-center border-bottom pb-1 mb-1">
-                    <p>Unlock Your Potential: Discover Exciting Career Opportunities Today!</p>
-                </ul>
-                <p class="text-center text-body-secondary">&copy; 2024 ByteZen, Inc.</p>
-            </footer>
-        </div>
+      <div class="container">
+        <footer class="py-3">
+          <ul class="nav justify-content-center border-bottom pb-1 mb-1">
+            <p>
+              Unlock Your Potential: Discover Exciting Career Opportunities
+              Today!
+            </p>
+          </ul>
+          <p class="text-center text-body-secondary">
+            &copy; 2024 ByteZen, Inc.
+          </p>
+        </footer>
+      </div>
     </div>
 
     <!-- JavaScript to fetch and display applicant data -->
     <script>
-        window.onload = function() {
-            fetch('/load_applicants')
-                .then(response => response.json())
-                .then(data => {
-                    const applicantTable = document.getElementById('applicantTable');
-                    data.applicants.forEach(job_applicants => {
-                        // Check if applicant status is 'Accepted' and not deleted
-                        if (job_applicants.status === 'Accepted' && job_applicants.is_deleted == '0') {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
+      window.onload = function () {
+        fetch('/load_applicants')
+          .then((response) => response.json())
+          .then((data) => {
+            const applicantTable = document.getElementById('applicantTable');
+            data.applicants.forEach((job_applicants) => {
+              // Check if applicant status is 'Accepted' and not deleted
+              if (
+                job_applicants.status === 'Accepted' &&
+                job_applicants.is_deleted == '0'
+              ) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
                                 <td>${job_applicants.id}</td>
                                 <td>${job_applicants.name}</td>
                                 <td>${job_applicants.age}</td>
                                 <td>${job_applicants.birthday}</td>
                                 <td>${job_applicants.job_title}</td>
-                                <td>${job_applicants.salary}</td>
                                 <td>${job_applicants.phone_number}</td>
                                 <td>${job_applicants.email}</td>
                                 <td>${job_applicants.address}</td>
                                 <td>${job_applicants.gender}</td>
                                 <td>${job_applicants.nationality}</td>
                                 <td>${job_applicants.username}</td>
+                                <td>${job_applicants.password}</td>
                                 <td>
                                     <button class="btn btn-primary" onclick="updateApplicant(${job_applicants.id})">Update</button>
                                     <button class="btn btn-danger" onclick="deleteApplicant(${job_applicants.id}, this)">Delete</button>
                                 </td>
                             `;
-                            applicantTable.appendChild(row);
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        };
-    
-        function updateApplicant(id) {
-            window.location.href = `/update_applicant?id=${id}`;
-        }
+                applicantTable.appendChild(row);
+              }
+            });
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      };
 
-    
-        function deleteApplicant(id, button) {
-    // Send a request to the server to soft delete the applicant
-    fetch('/delete_applicant', { // Note that the endpoint may need to be changed to '/delete_applicant'
-        method: 'POST',
-        headers: {
+      function updateApplicant(id) {
+        window.location.href = `/update_applicant?id=${id}`;
+      }
+
+      function deleteApplicant(id, button) {
+        // Send a request to the server to soft delete the applicant
+        fetch('/delete_applicant', {
+          // Note that the endpoint may need to be changed to '/delete_applicant'
+          method: 'POST',
+          headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        },
-        body: `id=${id}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Hide the row from the table
-            const row = button.closest('tr');
-            row.style.display = 'none'; // Hides the row instead of removing it, in case you need to undo the delete
-        } else {
-            console.error('Failed to delete applicant:', data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
+          },
+          body: `id=${id}`,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              // Hide the row from the table
+              const row = button.closest('tr');
+              row.style.display = 'none'; // Hides the row instead of removing it, in case you need to undo the delete
+            } else {
+              console.error('Failed to delete applicant:', data.message);
+            }
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
     </script>
-</body>
+  </body>
 </html>
