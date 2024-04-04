@@ -5,12 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
     <!-- Page-specific styles -->
+    <link rel="stylesheet" href="/static/css/home.css">
     <style>
       #banner {
         width: 100%;
         object-fit: cover;
         margin-bottom: 16px;
+      }
+      body{
+        background-color: #8f8ffe;
       }
     </style>
   </head>  
@@ -19,14 +24,14 @@
     {% include 'nav.html' %}
     <!-- Company banner -->
     <img class = "img-fluid" id = "banner" src = "/static/banner.svg">
-    <div class = "container">
-    <h1 class = "text-center mt-4 mb-4">{{company_name}} Careers</h1>
-    <p class = "lead">
+    <div class = "container bg-white">
+    <h1 class="text-center mt-5 pt-5 mb-4 fw-bold">{{company_name}} Careers</h1>
+    <p class="lead w-75 text-center mx-auto block pb-5 mb-5">
       <!-- Company introduction -->
       ByteZen, a cutting-edge tech company, pioneers in creating seamless digital experiences by blending precision with tranquility. Specializing in software development and digital solutions, ByteZen is committed to infusing simplicity and balance into complex technological landscapes. Our team of experts thrives on transforming intricate codes into intuitive applications, providing users with a harmonious and efficient digital environment. ByteZen envisions a world where technology enhances lives without unnecessary complexities, offering innovative solutions that pulse with both precision and calmness. Welcome to a ByteZen future, where technology meets tranquility.
     </p>
-    <h2 class = "text-center mt-4 mb-4">Job Openings</h2>
-    <div>
+    <h2 class="text-center mt-5 mb-4 fw-bold">Job Openings</h2>
+    <div class="job-openings">
       <!-- Loop to display job items -->
       {% for job in jobs %}
         {% include 'jobitem.html' %}

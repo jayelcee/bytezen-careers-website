@@ -1,0 +1,12 @@
+
+
+  .job-openings{
+    margin-left: 80px; 
+    margin-right: 20px;
+  }
+
+  @media only screen and (max-width: 770px) {
+    .job-openings{
+      margin: 0px;
+    }
+  }
