@@ -47,13 +47,13 @@
             <th>Age</th>
             <th>Birthday</th>
             <th>Job Title</th>
+            <th>Salary</th>
             <th>Phone Number</th>
             <th>Email</th>
             <th>Address</th>
             <th>Gender</th>
             <th>Nationality</th>
             <th>Username</th>
-            <th>Password</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -100,13 +100,13 @@
                                 <td>${job_applicants.age}</td>
                                 <td>${job_applicants.birthday}</td>
                                 <td>${job_applicants.job_title}</td>
+                                <td>${job_applicants.salary}</td>
                                 <td>${job_applicants.phone_number}</td>
                                 <td>${job_applicants.email}</td>
                                 <td>${job_applicants.address}</td>
                                 <td>${job_applicants.gender}</td>
                                 <td>${job_applicants.nationality}</td>
                                 <td>${job_applicants.username}</td>
-                                <td>${job_applicants.password}</td>
                                 <td>
                                     <button class="btn btn-primary" onclick="updateApplicant(${job_applicants.id})">Update</button>
                                     <button class="btn btn-danger" onclick="deleteApplicant(${job_applicants.id}, this)">Delete</button>
