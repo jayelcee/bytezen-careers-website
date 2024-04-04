@@ -41,9 +41,9 @@
         <div class="table-responsive">
             <!-- Display applicants grouped by job title -->
             {% for job_title, group in applicants | groupby('job_title') %}
-            <br/><h4 style="margin-left: 8px;">{{ job_title }}</h4>
-            <table class="table">
-                <thead>
+            <br/><h3 class="mb-4" style="margin-left: 8px;">{{ job_title }}</h3>
+            <table class="table mb-3">
+                <thead class="table-light">
                     <tr>
                         <!-- Table headers -->
                         <th class="narrow-column">Name</th>
