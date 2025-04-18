@@ -21,7 +21,7 @@
 ## 🛠 Tech Stack
 
 - **Backend:** Python, Flask
-- **Frontend:** HTML, CSS, JavaScript
+- **Frontend:** HTML, CSS
 - **Database:** SQLite
 - **Package Management:** Poetry
 - **File Storage:** Local resume uploads (PDF)
