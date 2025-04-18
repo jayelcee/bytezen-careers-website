@@ -45,29 +45,43 @@ bytezen-careers-website/
 
 ## 🧪 Setup Instructions
 
-### 1. Clone the repository
+Follow these steps to set up and run the project in your local environment:
 
-```bash
-git clone https://github.com/jayelcee/bytezen-careers-website.git
-cd bytezen-careers-website
-```
+1. **Clone the Repository**
 
-### 2. Install dependencies (with Poetry)
+   ```bash
+   git clone https://github.com/jayelcee/bytezen-careers-website.git
+   cd bytezen-careers-website
+   ```
 
-Make sure Poetry is installed: [Install Poetry](https://python-poetry.org/docs/)
+2. **Create a Virtual Environment**
 
-```bash
-poetry install
-```
+   ```bash
+   python3 -m venv venv
+   ```
 
-### 3. Run the app
+3. **Activate the Virtual Environment**
 
-```bash
-poetry run python app.py
-```
+   ```bash
+   source venv/bin/activate
+   ```
 
-Visit `http://localhost:3000` to view the application.
+4. **Install Dependencies**
 
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. **Run the Flask Application**
+
+   ```bash
+   python3 app.py
+   ```
+
+6. **Access the Website**
+
+   Open your browser and go to:  
+   [http://localhost:5000](http://localhost:5000)
 
 ## 🔑 Admin Login (for Demo)
 
