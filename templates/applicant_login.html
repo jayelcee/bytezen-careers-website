@@ -17,6 +17,43 @@
         border-radius: 15px;
         border: 1px solid #f7f7f7;
       }
+
+      body {
+        margin-bottom: 80px;
+      }
+
+      .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #ffffff;
+        padding: 10px 0;
+      }
+
+      .test-credentials {
+        margin: 20px 0;
+        padding: 12px;
+        background-color: #f8f9fa;
+        border-left: 3px solid #dee2e6;
+        border-radius: 4px;
+      }
+
+      .test-credentials small {
+        display: block;
+        line-height: 1.6;
+      }
+
+      .credentials-list {
+        margin-top: 8px;
+      }
+
+      .credentials-list code {
+        background-color: #e9ecef;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 0.85em;
+        color: #495057;
+      }
     </style>
   </head>
   <body>
@@ -55,26 +92,20 @@
                 required
               />
             </div>
+            <div class="test-credentials">
+              <small class="text-muted">Test Applicant Credentials:</small>
+              <div class="credentials-list">
+                <small><code>johndoe123</code> / <code>password123</code></small>
+                <small><code>janesmith456</code> / <code>password456</code></small>
+                <small><code>michaelchen789</code> / <code>password789</code></small>
+                <small><code>sarahjohnson234</code> / <code>password234</code></small>
+              </div>
+            </div>
             <button type="submit" class="btn btn-primary">Login</button>
           </form>
         </div>
       </div>
     </div>
-    <!-- Page-specific styles -->
-    <style>
-      body {
-        margin-bottom: 80px;
-      }
-
-      .fixed-footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background-color: #ffffff;
-        padding: 10px 0;
-      }
-    </style>
-
     <!-- Fixed footer with company information -->
     <div class="fixed-footer">
       <div class="container">

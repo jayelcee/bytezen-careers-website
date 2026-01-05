@@ -1,4 +1,7 @@
+
 # Importing necessary modules from Flask and other files
+from dotenv import load_dotenv
+load_dotenv()
 from flask import (
     Flask, render_template, jsonify, request, redirect, url_for, 
     send_from_directory, session, flash,
@@ -65,10 +68,10 @@ def applicants():
 def get_db_connection():
     try:
         conn = psycopg2.connect(
-            dbname='bytezen_careers_db',
-            user='bytezen_careers_db_user',
-            password='tQMQEPV4eK0QB8AvL7EhTDVS2YrmXRQt',
-            host='dpg-cmp6tqol5elc73fn9e20-a.singapore-postgres.render.com',
+            dbname='bytezen_careers_db_frat',
+            user='bytezen_careers_db_frat_user',
+            password='j9crb6eHpEwEr7tToc5tQoGsWX9SXFm6',
+            host='dpg-d5dt50umcj7s73b0opv0-a.singapore-postgres.render.com',
             port='5432'
         )
         return conn
@@ -401,6 +404,24 @@ def check_status():
         return jsonify({"success": True, "applicants": matching_applicants})  # Return matching applicants
     else:
         return jsonify({"success": False, "message": "No matching applicants found"})  # No matching applicants
+
+# Route for getting all applicants
+@app.route("/get_all_applicants")
+def get_all_applicants():
+    # Fetch all applicants
+    applicants = db_session.query(JobApplicant).all()
+    
+    if applicants:
+        all_applicants = []
+        for applicant in applicants:
+            all_applicants.append({
+                "name": applicant.name,
+                "job_title": applicant.job_title,
+                "status": applicant.status
+            })
+        return jsonify({"success": True, "applicants": all_applicants})
+    else:
+        return jsonify({"success": True, "applicants": []})
 
 # Teardown context to remove database session
 @app.teardown_appcontext

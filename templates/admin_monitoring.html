@@ -85,7 +85,11 @@
                         </td>
                         <td>
                             <!-- Link to view resume -->
-                            <a href="{{ url_for('uploaded_file', filename=applicant.resume) }}" target="_blank">View Resume</a>
+                            {% if applicant.resume %}
+                                <a href="{{ url_for('uploaded_file', filename=applicant.resume) }}" target="_blank">View Resume</a>
+                            {% else %}
+                                <span class="text-muted">No Resume</span>
+                            {% endif %}
                         </td>
                         <td>
                             <!-- Dropdown to update status -->

@@ -67,9 +67,44 @@
         const feedbackRow = document.getElementById('feedbackRow');
         const feedbackCell = document.getElementById('feedbackCell');
 
+        // Load all applicants on page load
+        function loadAllApplicants() {
+            fetch('/get_all_applicants')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.applicants.length > 0) {
+                    applicantTable.innerHTML = '';
+                    data.applicants.forEach(applicant => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${applicant.name}</td>
+                            <td>${applicant.job_title}</td>
+                            <td>${applicant.status}</td>
+                        `;
+                        applicantTable.appendChild(row);
+                    });
+                } else {
+                    applicantTable.innerHTML = '<tr><td colspan="3">No applicants found.</td></tr>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Load all applicants when page loads
+        window.addEventListener('load', loadAllApplicants);
+
         searchForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const searchValue = searchInput.value.trim();
+            
+            if (searchValue === '') {
+                // If search is empty, load all applicants
+                loadAllApplicants();
+                return;
+            }
+            
             fetch('/check_status', {
                 method: 'POST',
                 headers: {

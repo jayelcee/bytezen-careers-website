@@ -89,7 +89,7 @@ Follow these steps to set up and run the project in your local environment:
 
 ```text
 Username: admin
-Password: admin123
+Password: admin@bytezen!
 ```
 
 ## 📁 Resume Uploads
